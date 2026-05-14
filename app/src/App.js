@@ -2,22 +2,13 @@ import './App.css';
 import { AuthProvider, useAuth } from './AuthContext';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import LoadingIndicator from './LoadingIndicator';
 
 function AppContent() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#f5f5f5'
-      }}>
-        <div>Loading...</div>
-      </div>
-    );
+    return <LoadingIndicator />;
   }
 
   return user ? <Dashboard /> : <Login />;
