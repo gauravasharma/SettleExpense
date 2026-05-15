@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { groupsService } from './groupsService';
 import { friendsService } from './friendsService';
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import './Groups.css';
 
 const Groups = () => {
@@ -778,64 +779,85 @@ const unsubscribeGroups = groupsService.getUserGroups(user.uid, (groupsData) => 
                     }}>
                       <h6 style={{ margin: '0 0 0.75rem 0', color: '#333' }}>Expenses</h6>
                       {group.expenses && group.expenses.length > 0 ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                          {group.expenses.map((expense) => (
-                            <div key={expense.id} style={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                              padding: '0.75rem',
-                              backgroundColor: 'white',
-                              borderRadius: '6px',
-                              border: '1px solid #dee2e6'
-                            }}>
-                              <div>
-                                <div style={{ fontWeight: '600', fontSize: '14px', color: '#333' }}>
-                                  {expense.title}
-                                </div>
-                                <div style={{ fontSize: '12px', color: '#666' }}>
-                                  Paid by {expense.addedBy?.displayName || 'Unknown'}
-                                </div>
-                              </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                <div style={{ fontWeight: '600', color: '#333' }}>
-                                  ${Number(expense.amount).toFixed(2)}
-                                </div>
-                                <button
-                                  onClick={() => handleEditExpense(group.id, expense)}
-                                  style={{
-                                    padding: '0.4rem 0.8rem',
-                                    backgroundColor: '#17a2b8',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontSize: '12px',
-                                    fontWeight: '500'
-                                  }}
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() => handleDeleteExpense(group.id, expense.id)}
-                                  style={{
-                                    padding: '0.4rem 0.8rem',
-                                    backgroundColor: '#dc3545',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '4px',
-                                    cursor: 'pointer',
-                                    fontSize: '12px',
-                                    fontWeight: '500'
-                                  }}
-                                >
-                                  Delete
-                                </button>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+  {group.expenses.map((expense) => (
+    <div
+      key={expense.id}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '0.75rem',
+        backgroundColor: 'white',
+        borderRadius: '6px',
+        border: '1px solid #dee2e6',
+        gap: '0.5rem'
+      }}
+    >
+      {/* Top: Title + Paid By */}
+      <div>
+        <div style={{ fontWeight: '600', fontSize: '14px', color: '#333' }}>
+          {expense.title}
+        </div>
+        <div style={{ fontSize: '12px', color: '#666' }}>
+          Paid by {expense.addedBy?.displayName || 'Unknown'}
+        </div>
+      </div>
+
+      {/* Bottom: Amount left + Icons right */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        {/* Amount bottom-left */}
+        <div style={{ fontWeight: '600', color: '#333' }}>
+          ${Number(expense.amount).toFixed(2)}
+        </div>
+
+        {/* Icons bottom-right */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <button
+            onClick={() => handleEditExpense(group.id, expense)}
+            style={{
+              backgroundColor: '#17a2b8',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              padding: '0.4rem 0.6rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <FaPencilAlt size={14} />
+          </button>
+
+          <button
+            onClick={() => handleDeleteExpense(group.id, expense.id)}
+            style={{
+              backgroundColor: '#dc3545',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              padding: '0.4rem 0.6rem',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
+            <FaTrash size={14} />
+          </button>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
+) : (
                         <p style={{ margin: 0, color: '#666', fontSize: '13px' }}>No expenses yet.</p>
                       )}
                     </div>
