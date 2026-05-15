@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { groupsService } from './groupsService';
 import { friendsService } from './friendsService';
+import './Groups.css';
 
 const Groups = () => {
   const { user } = useAuth();
@@ -380,25 +381,11 @@ const unsubscribeGroups = groupsService.getUserGroups(user.uid, (groupsData) => 
 
   return (
     <div>
-      <div style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '2rem'
-      }}>
-        <h3 style={{ color: '#333', margin: 0 }}>Groups</h3>
+      <div className="groups-header">
+        <h3 className="groups-title">Groups</h3>
         <button
           onClick={() => setShowCreateForm(!showCreateForm)}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: '#4285f4',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '500'
-          }}
+          className="groups-create-btn"
         >
           {showCreateForm ? 'Cancel' : '+ Create Group'}
         </button>
@@ -406,64 +393,35 @@ const unsubscribeGroups = groupsService.getUserGroups(user.uid, (groupsData) => 
 
       {/* Create Group Form */}
       {showCreateForm && (
-        <div style={{
-          backgroundColor: '#f8f9fa',
-          padding: '1.5rem',
-          borderRadius: '8px',
-          border: '1px solid #dee2e6',
-          marginBottom: '2rem'
-        }}>
-          <h4 style={{ margin: '0 0 1rem 0', color: '#333' }}>Create New Group</h4>
+        <div className="groups-form-section">
+          <h4 className="groups-form-title">Create New Group</h4>
           <form onSubmit={handleCreateGroup}>
-            <div style={{ marginBottom: '1rem' }}>
+            <div className="groups-form-group">
               <input
                 type="text"
                 placeholder="Group Name (required)"
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ced4da',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  boxSizing: 'border-box'
-                }}
+                className="groups-form-input"
               />
             </div>
-            <div style={{ marginBottom: '1rem' }}>
+            <div className="groups-form-group">
               <textarea
                 placeholder="Description (optional)"
                 value={groupDescription}
                 onChange={(e) => setGroupDescription(e.target.value)}
-                style={{
-                  width: '100%',
-                  padding: '0.75rem',
-                  border: '1px solid #ced4da',
-                  borderRadius: '4px',
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  boxSizing: 'border-box',
-                  minHeight: '80px'
-                }}
+                className="groups-form-textarea"
               />
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              style={{
-                padding: '0.75rem 1.5rem',
-                backgroundColor: '#28a745',
-                color: 'white',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}
-            >
-              {loading ? 'Creating...' : 'Create Group'}
-            </button>
+            <div className="groups-form-buttons">
+              <button
+                type="submit"
+                disabled={loading}
+                className="groups-submit-btn"
+              >
+                {loading ? 'Creating...' : 'Create Group'}
+              </button>
+            </div>
           </form>
         </div>
       )}
@@ -494,83 +452,55 @@ const unsubscribeGroups = groupsService.getUserGroups(user.uid, (groupsData) => 
                   boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
                 }}>
                   <div style={{ marginBottom: '1rem' }}>
-                    <div style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      marginBottom: '0.5rem'
-                    }}>
+                    <div className="groups-card-top">
                       <div
+                        className="groups-card-row-title"
                         onClick={() => toggleGroup(group.id)}
-                        style={{
-                          flex: 1,
-                          cursor: 'pointer',
-                          minWidth: 0,
-                          marginRight: '1rem'
-                        }}
+                        role="button"
+                        tabIndex={0}
+                        onKeyPress={(e) => { if (e.key === 'Enter') toggleGroup(group.id); }}
                       >
-                        <h5 style={{ margin: 0, color: '#333', fontSize: '16px' }}>
-                          {group.name}
-                        </h5>
-                        <div style={{
-                          display: 'flex',
-                          flexWrap: 'wrap',
-                          gap: '1rem',
-                          marginTop: '0.5rem',
-                          fontSize: '12px',
-                          color: '#999'
-                        }}>
+                        <h5 className="groups-card-title">{group.name}</h5>
+                      </div>
+                    </div>
+                    <div className="groups-card-bottom">
+                      <div className="groups-card-bottom-left">
+                        <div className="groups-card-row-meta">
                           <span>Members: {group.members.length}</span>
-                          <span>
-                            {new Date(group.createdDate.seconds ? group.createdDate.seconds * 1000 : group.createdDate).toLocaleDateString()}
-                          </span>
+                          <span>{new Date(group.createdDate.seconds ? group.createdDate.seconds * 1000 : group.createdDate).toLocaleDateString()}</span>
                         </div>
                       </div>
-                      <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0, flexWrap: 'wrap' }}>
+                      <div className="groups-card-row-actions">
                         <button
                           onClick={() => toggleGroup(group.id)}
-                          style={{
-                            padding: '0.5rem 1rem',
-                            backgroundColor: '#6c757d',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '12px',
-                            fontWeight: '500'
-                          }}
+                          className="groups-expand-btn"
+                          aria-expanded={isExpanded}
+                          title={isExpanded ? 'Collapse group' : 'Expand group'}
                         >
-                          {isExpanded ? 'Collapse' : 'Expand'}
+                          <svg className={`btn-icon ${isExpanded ? 'rotate' : ''}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z" />
+                          </svg>
+                          <span className="btn-label">{isExpanded ? 'Collapse' : 'Expand'}</span>
                         </button>
                         <button
                           onClick={() => handleAddExpenseButtonClick(group.id)}
-                          style={{
-                            padding: '0.5rem 1rem',
-                            backgroundColor: '#fd7e14',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '12px',
-                            fontWeight: '500'
-                          }}
+                          className="groups-add-expense-btn"
+                          title={expenseGroupId === group.id && showAddExpenseForm ? 'Close add expense' : 'Add expense'}
                         >
-                          {expenseGroupId === group.id && showAddExpenseForm ? 'Close' : '+ Add Expense'}
+                          <svg className="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <path d="M12 5v14m7-7H5" strokeWidth="2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                          </svg>
+                          <span className="btn-label">{expenseGroupId === group.id && showAddExpenseForm ? 'Close' : 'Add Expense'}</span>
                         </button>
                         <button
                           onClick={() => handleAddMemberButtonClick(group.id)}
-                          style={{
-                            padding: '0.5rem 1rem',
-                            backgroundColor: '#17a2b8',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '12px',
-                            fontWeight: '500'
-                          }}
+                          className="groups-add-member-btn"
+                          title={selectedGroupId === group.id && showAddMemberForm ? 'Close add member' : 'Add member'}
                         >
-                          {selectedGroupId === group.id && showAddMemberForm ? 'Close' : '+ Add Member'}
+                          <svg className="btn-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                            <path d="M15 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM6 20v-1c0-2 4-3 6-3s6 1 6 3v1H6zM19 11v2" fill="currentColor" />
+                          </svg>
+                          <span className="btn-label">{selectedGroupId === group.id && showAddMemberForm ? 'Close' : 'Add Member'}</span>
                         </button>
                       </div>
                     </div>

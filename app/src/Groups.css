@@ -401,6 +401,32 @@
   text-align: center;
 }
 
+/* Icon helpers */
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  margin-right: 0.5rem;
+}
+
+.btn-label {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* On very small screens show icons only where appropriate */
+@media (max-width: 480px) {
+  .btn-label {
+    display: none;
+  }
+}
+
 /* Responsive styles */
 @media (max-width: 768px) {
   .groups-header {
@@ -637,5 +663,82 @@
 
   .groups-no-data {
     font-size: 12px;
+  }
+}
+
+/* Card top rows for mobile layout */
+.groups-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.groups-card-row-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.groups-card-row-title .groups-card-title {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.groups-card-row-meta {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: #999;
+  font-size: 12px;
+}
+
+.groups-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.groups-card-bottom-left {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: #6c757d;
+  font-size: 12px;
+}
+
+.groups-card-bottom-left span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.groups-card-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .groups-card-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .groups-card-bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .groups-card-row-actions {
+    justify-content: flex-start;
   }
 }
