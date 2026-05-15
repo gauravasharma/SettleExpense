@@ -1,7 +1,9 @@
 import './App.css';
 import { AuthProvider, useAuth } from './AuthContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
-import Dashboard from './Dashboard';
+import Home from './Home';
+import Header from './Header';
 import LoadingIndicator from './LoadingIndicator';
 
 function AppContent() {
@@ -11,13 +13,27 @@ function AppContent() {
     return <LoadingIndicator />;
   }
 
-  return user ? <Dashboard /> : <Login />;
+  if (!user) {
+    return <Login />;
+  }
+
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
+  );
 }
 
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <Router>
+        <AppContent />
+      </Router>
     </AuthProvider>
   );
 }

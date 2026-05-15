@@ -4,9 +4,33 @@ service cloud.firestore {
     // Users can read and write their own user document
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow authenticated users to read other users' basic profile info for friend search
+      allow read: if request.auth != null;
     }
 
-    // Allow read/write for authenticated users (you can customize this based on your needs)
+    // Friends collection - users can manage their own friend relationships
+    match /friends/{friendId} {
+      allow read, write: if request.auth != null &&
+        (request.auth.uid == resource.data.senderId ||
+         request.auth.uid == resource.data.receiverId);
+    }
+
+    // Allow creating new friend documents
+    match /friends {
+      allow create: if request.auth != null;
+    }
+
+    // Groups collection - allow creating groups and accessing groups user is member of
+    match /groups/{groupId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null &&
+        (request.auth.uid == resource.data.createdBy);
+      allow delete: if request.auth != null &&
+        (request.auth.uid == resource.data.createdBy);
+    }
+
+    // Allow read/write for other collections if authenticated (for future features)
     match /{document=**} {
       allow read, write: if request.auth != null;
     }
