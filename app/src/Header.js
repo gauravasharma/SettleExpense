@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './Header.css';
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -38,12 +39,16 @@ const Header = () => {
     <div style={{
       backgroundColor: 'white',
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      padding: '1rem 2rem',
+      padding: window.innerWidth <= 480 ? '0.75rem 1rem' : window.innerWidth <= 768 ? '1rem 1.5rem' : '1rem 2rem',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center'
     }}>
-      <h1 style={{ margin: 0, color: '#333', fontSize: '24px' }}>Settle Expense</h1>
+      <h1 style={{ 
+        margin: 0, 
+        color: '#333', 
+        fontSize: window.innerWidth <= 480 ? '18px' : window.innerWidth <= 768 ? '20px' : '24px'
+      }}>Settle Expense</h1>
       
       <div style={{
         display: 'flex',

@@ -1,0 +1,155 @@
+.header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-title {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.header-user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+}
+
+.header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4285f4;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.header-avatar:hover {
+  transform: scale(1.1);
+}
+
+.header-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border: 1px solid #e0e0e0;
+  z-index: 1000;
+  min-width: 180px;
+  overflow: hidden;
+}
+
+.header-dropdown-user-info {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 13px;
+  color: #666;
+}
+
+.header-dropdown-user-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.header-dropdown-user-email {
+  font-size: 12px;
+  margin-top: 0.25rem;
+}
+
+.header-dropdown-logout-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background-color: transparent;
+  color: #dc3545;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+  font-weight: 500;
+}
+
+.header-dropdown-logout-btn:hover {
+  background-color: #f8f9fa;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .header-title {
+    font-size: 20px;
+  }
+
+  .header-user-section {
+    gap: 0.75rem;
+  }
+
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .header-dropdown {
+    min-width: 160px;
+  }
+
+  .header-dropdown-user-info {
+    padding: 0.625rem 0.875rem;
+    font-size: 12px;
+  }
+
+  .header-dropdown-logout-btn {
+    padding: 0.625rem 0.875rem;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-title {
+    font-size: 18px;
+  }
+
+  .header-user-section {
+    gap: 0.5rem;
+  }
+
+  .header-avatar {
+    width: 32px;
+    height: 32px;
+  }
+
+  .header-dropdown {
+    min-width: 140px;
+    right: -10px;
+  }
+
+  .header-dropdown-user-info {
+    padding: 0.5rem 0.75rem;
+    font-size: 11px;
+  }
+
+  .header-dropdown-user-email {
+    font-size: 10px;
+  }
+
+  .header-dropdown-logout-btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 12px;
+  }
+}
