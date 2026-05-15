@@ -1,0 +1,641 @@
+/* Groups component styles */
+.groups-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.groups-title {
+  color: #333;
+  margin: 0;
+  font-size: 24px;
+}
+
+.groups-create-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.groups-create-btn:hover {
+  background-color: #3367d6;
+}
+
+.groups-form-section {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  margin-bottom: 2rem;
+}
+
+.groups-form-title {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.groups-form-group {
+  margin-bottom: 1rem;
+}
+
+.groups-form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.groups-form-input,
+.groups-form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.groups-form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.groups-form-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.groups-submit-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.groups-submit-btn:hover {
+  background-color: #218838;
+}
+
+.groups-cancel-btn {
+  padding: 0.75rem 1.5rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.groups-cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.groups-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+}
+
+.groups-card-header {
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.groups-card-title {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 18px;
+}
+
+.groups-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #666;
+}
+
+.groups-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.groups-expand-btn {
+  padding: 0.5rem 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.groups-expand-btn:hover {
+  background-color: #138496;
+}
+
+.groups-add-expense-btn {
+  padding: 0.5rem 1rem;
+  background-color: #fd7e14;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.groups-add-expense-btn:hover {
+  background-color: #e8590c;
+}
+
+.groups-add-member-btn {
+  padding: 0.5rem 1rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.groups-add-member-btn:hover {
+  background-color: #138496;
+}
+
+.groups-card-content {
+  padding: 1.5rem;
+}
+
+.groups-card-description {
+  margin: 0 0 1rem 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.groups-section-title {
+  margin: 1rem 0 0.5rem 0;
+  color: #666;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.groups-members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.groups-member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.groups-member-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.groups-member-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.groups-member-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.groups-member-name {
+  font-weight: 500;
+  color: #333;
+  font-size: 13px;
+}
+
+.groups-member-role {
+  font-size: 11px;
+  color: #999;
+}
+
+.groups-member-email {
+  font-size: 11px;
+  color: #666;
+}
+
+.groups-member-stats {
+  font-size: 11px;
+  margin-top: 0.25rem;
+}
+
+.groups-leave-btn {
+  padding: 0.4rem 0.8rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.groups-leave-btn:hover {
+  background-color: #c82333;
+}
+
+.groups-expenses-section {
+  margin-top: 1rem;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.groups-expenses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.groups-expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.groups-expense-info {
+  flex: 1;
+}
+
+.groups-expense-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.groups-expense-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.groups-expense-amount {
+  font-weight: 600;
+  color: #333;
+}
+
+.groups-expense-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.groups-edit-btn {
+  padding: 0.4rem 0.8rem;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.groups-edit-btn:hover {
+  background-color: #138496;
+}
+
+.groups-delete-btn {
+  padding: 0.4rem 0.8rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.groups-delete-btn:hover {
+  background-color: #c82333;
+}
+
+.groups-balances-section {
+  margin-top: 1rem;
+  background-color: #f1f3f5;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.groups-balances-title {
+  margin: 0 0 0.75rem 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.groups-balances-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.groups-balance-item {
+  padding: 0.75rem;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #dee2e6;
+}
+
+.groups-balance-text {
+  color: #333;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.groups-no-data {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .groups-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1.5rem;
+  }
+
+  .groups-title {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .groups-create-btn {
+    align-self: center;
+    padding: 0.625rem 1.25rem;
+    font-size: 13px;
+  }
+
+  .groups-form-section {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .groups-form-title {
+    font-size: 16px;
+  }
+
+  .groups-form-buttons {
+    flex-direction: column;
+  }
+
+  .groups-submit-btn,
+  .groups-cancel-btn {
+    width: 100%;
+    padding: 0.625rem;
+    font-size: 13px;
+  }
+
+  .groups-card-header {
+    padding: 1rem;
+  }
+
+  .groups-card-title {
+    font-size: 16px;
+  }
+
+  .groups-card-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .groups-card-actions {
+    gap: 0.375rem;
+  }
+
+  .groups-expand-btn,
+  .groups-add-expense-btn,
+  .groups-add-member-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 11px;
+  }
+
+  .groups-card-content {
+    padding: 1rem;
+  }
+
+  .groups-member-item {
+    padding: 0.625rem;
+  }
+
+  .groups-member-info {
+    gap: 0.625rem;
+  }
+
+  .groups-member-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .groups-member-name {
+    font-size: 12px;
+  }
+
+  .groups-member-role,
+  .groups-member-email {
+    font-size: 10px;
+  }
+
+  .groups-leave-btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 11px;
+  }
+
+  .groups-expenses-section,
+  .groups-balances-section {
+    padding: 0.75rem;
+  }
+
+  .groups-expense-item {
+    padding: 0.625rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .groups-expense-actions {
+    align-self: flex-end;
+  }
+
+  .groups-edit-btn,
+  .groups-delete-btn {
+    padding: 0.35rem 0.7rem;
+    font-size: 11px;
+  }
+
+  .groups-balance-item {
+    padding: 0.625rem;
+  }
+
+  .groups-balance-text {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .groups-header {
+    margin-bottom: 1rem;
+  }
+
+  .groups-title {
+    font-size: 18px;
+  }
+
+  .groups-create-btn {
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  .groups-form-section {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .groups-form-title {
+    font-size: 15px;
+  }
+
+  .groups-form-input,
+  .groups-form-textarea {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .groups-submit-btn,
+  .groups-cancel-btn {
+    padding: 0.5rem;
+    font-size: 12px;
+  }
+
+  .groups-card-header {
+    padding: 0.75rem;
+  }
+
+  .groups-card-title {
+    font-size: 15px;
+  }
+
+  .groups-card-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .groups-expand-btn,
+  .groups-add-expense-btn,
+  .groups-add-member-btn {
+    padding: 0.35rem 0.625rem;
+    font-size: 10px;
+  }
+
+  .groups-card-content {
+    padding: 0.75rem;
+  }
+
+  .groups-section-title {
+    font-size: 12px;
+  }
+
+  .groups-member-item {
+    padding: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .groups-member-info {
+    width: 100%;
+  }
+
+  .groups-leave-btn {
+    align-self: flex-end;
+    padding: 0.3rem 0.6rem;
+    font-size: 10px;
+  }
+
+  .groups-expenses-section,
+  .groups-balances-section {
+    padding: 0.5rem;
+  }
+
+  .groups-expense-title {
+    font-size: 13px;
+  }
+
+  .groups-expense-meta {
+    font-size: 11px;
+  }
+
+  .groups-expense-amount {
+    font-size: 13px;
+  }
+
+  .groups-edit-btn,
+  .groups-delete-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 10px;
+  }
+
+  .groups-balance-text {
+    font-size: 12px;
+  }
+
+  .groups-no-data {
+    font-size: 12px;
+  }
+}

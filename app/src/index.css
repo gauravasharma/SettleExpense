@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
 }
 
 code {
@@ -21,6 +27,7 @@ code {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
+  width: 100%;
 }
 
 @media (max-width: 768px) {

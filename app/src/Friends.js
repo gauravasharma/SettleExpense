@@ -118,16 +118,29 @@ const Friends = () => {
     }
   };
 
+  const isMobile = window.innerWidth <= 480;
+  const isTablet = window.innerWidth <= 768;
+  
+  const getHeaderPadding = () => isMobile ? '1rem 0 1.5rem 0' : isTablet ? '1.25rem 0 1.75rem 0' : '2rem 0';
+  const getSectionPadding = () => isMobile ? '1rem' : isTablet ? '1.25rem' : '1.5rem';
+  const getFormGap = () => isMobile ? '0.5rem' : '1rem';
+  const getCardPadding = () => isMobile ? '0.75rem' : isTablet ? '1rem' : '1rem';
+  const getAvatarSize = () => isMobile ? '36px' : '40px';
+  const getAvatarMargin = () => isMobile ? '0.5rem' : '1rem';
+  const getFontSize = () => isMobile ? '13px' : isTablet ? '13.5px' : '14px';
+
   return (
     <div>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: '2rem'
+        marginBottom: getHeaderPadding(),
+        flexWrap: 'wrap',
+        gap: isMobile ? '0.5rem' : '1rem'
       }}>
-        <h3 style={{ color: '#333', margin: 0 }}>Friends</h3>
-        <div style={{ fontSize: '14px', color: '#666' }}>
+        <h3 style={{ color: '#333', margin: 0, fontSize: isTablet ? '20px' : '24px' }}>Friends</h3>
+        <div style={{ fontSize: isMobile ? '12px' : '14px', color: '#666', whiteSpace: 'nowrap' }}>
           {friends.length} friend{friends.length !== 1 ? 's' : ''}
         </div>
       </div>
@@ -135,13 +148,17 @@ const Friends = () => {
       {/* Search Section */}
       <div style={{
         backgroundColor: '#f8f9fa',
-        padding: '1.5rem',
+        padding: getSectionPadding(),
         borderRadius: '8px',
         border: '1px solid #dee2e6',
-        marginBottom: '2rem'
+        marginBottom: getHeaderPadding()
       }}>
-        <h4 style={{ margin: '0 0 1rem 0', color: '#333' }}>Add Friends</h4>
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '1rem' }}>
+        <h4 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: isTablet ? '16px' : '18px' }}>Add Friends</h4>
+        <form onSubmit={handleSearch} style={{ 
+          display: 'flex', 
+          gap: getFormGap(),
+          flexDirection: isMobile ? 'column' : 'row'
+        }}>
           <input
             type="email"
             placeholder="Search by email address..."
@@ -149,24 +166,29 @@ const Friends = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             style={{
               flex: 1,
-              padding: '0.75rem',
+              padding: isMobile ? '0.625rem' : '0.75rem',
               border: '1px solid #ced4da',
               borderRadius: '4px',
-              fontSize: '14px'
+              fontSize: getFontSize(),
+              minHeight: isMobile ? '36px' : '40px',
+              width: '100%'
             }}
           />
           <button
             type="submit"
             disabled={searching}
             style={{
-              padding: '0.75rem 1.5rem',
+              padding: isMobile ? '0.625rem 1rem' : '0.75rem 1.5rem',
               backgroundColor: '#4285f4',
               color: 'white',
               border: 'none',
               borderRadius: '4px',
               cursor: searching ? 'not-allowed' : 'pointer',
-              fontSize: '14px',
-              fontWeight: '500'
+              fontSize: getFontSize(),
+              fontWeight: '500',
+              minHeight: isMobile ? '36px' : '40px',
+              width: isMobile ? '100%' : 'auto',
+              whiteSpace: 'nowrap'
             }}
           >
             {searching ? 'Searching...' : 'Search'}
@@ -176,45 +198,51 @@ const Friends = () => {
         {/* Search Results */}
         {searchResults.length > 0 && (
           <div style={{ marginTop: '1rem' }}>
-            <h5 style={{ margin: '0 0 1rem 0', color: '#333' }}>Search Results</h5>
+            <h5 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: isTablet ? '15px' : '16px' }}>Search Results</h5>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {searchResults.map((result) => (
                 <div key={result.uid} style={{
                   display: 'flex',
-                  alignItems: 'center',
+                  alignItems: isMobile ? 'flex-start' : 'center',
                   justifyContent: 'space-between',
-                  padding: '1rem',
+                  padding: getCardPadding(),
                   backgroundColor: 'white',
                   borderRadius: '8px',
-                  border: '1px solid #e9ecef'
+                  border: '1px solid #e9ecef',
+                  flexDirection: isMobile ? 'column' : 'row',
+                  gap: isMobile ? '0.75rem' : '0'
                 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: getAvatarMargin(), width: isMobile ? '100%' : 'auto' }}>
                     <img
                       src={result.photoURL || '/default-avatar.png'}
                       alt={result.displayName}
                       style={{
-                        width: '40px',
-                        height: '40px',
+                        width: getAvatarSize(),
+                        height: getAvatarSize(),
                         borderRadius: '50%',
-                        objectFit: 'cover'
+                        objectFit: 'cover',
+                        flexShrink: 0
                       }}
                     />
-                    <div>
-                      <div style={{ fontWeight: '500', color: '#333' }}>{result.displayName}</div>
-                      <div style={{ fontSize: '12px', color: '#666' }}>{result.email}</div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div style={{ fontWeight: '500', color: '#333', fontSize: getFontSize(), overflow: 'hidden', textOverflow: 'ellipsis' }}>{result.displayName}</div>
+                      <div style={{ fontSize: isMobile ? '11px' : '12px', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis' }}>{result.email}</div>
                     </div>
                   </div>
                   <button
                     onClick={() => handleAddFriend(result)}
                     disabled={loading}
                     style={{
-                      padding: '0.5rem 1rem',
+                      padding: isMobile ? '0.5rem 1rem' : '0.5rem 1rem',
                       backgroundColor: '#28a745',
                       color: 'white',
                       border: 'none',
                       borderRadius: '4px',
                       cursor: loading ? 'not-allowed' : 'pointer',
-                      fontSize: '14px'
+                      fontSize: isMobile ? '12px' : '14px',
+                      minHeight: '36px',
+                      width: isMobile ? '100%' : 'auto',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {loading ? 'Adding...' : 'Add Friend'}
@@ -229,13 +257,13 @@ const Friends = () => {
       {/* Friends List */}
       <div style={{
         backgroundColor: '#f8f9fa',
-        padding: '1.5rem',
+        padding: getSectionPadding(),
         borderRadius: '8px',
         border: '1px solid #dee2e6'
       }}>
-        <h4 style={{ margin: '0 0 1rem 0', color: '#333' }}>Your Friends</h4>
+        <h4 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: isTablet ? '16px' : '18px' }}>Your Friends</h4>
         {friends.length === 0 ? (
-          <p style={{ margin: 0, color: '#666', textAlign: 'center' }}>
+          <p style={{ margin: 0, color: '#666', textAlign: 'center', fontSize: getFontSize() }}>
             No friends added yet. Search for friends above to get started!
           </p>
         ) : (
@@ -251,34 +279,35 @@ const Friends = () => {
                 return (
                   <div key={friend.id} style={{
                     display: 'flex',
-                    alignItems: 'center',
+                    alignItems: isMobile ? 'flex-start' : 'center',
                     justifyContent: 'space-between',
-                    padding: '1rem',
+                    padding: getCardPadding(),
                     backgroundColor: 'white',
                     borderRadius: '8px',
-                    border: '1px solid #e9ecef'
+                    border: '1px solid #e9ecef',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    gap: isMobile ? '0.75rem' : '0'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: getAvatarMargin(), width: isMobile ? '100%' : 'auto', minWidth: 0 }}>
                       <img
                         src={friendData.photoURL || '/default-avatar.png'}
                         alt={friendData.displayName}
                         style={{
-                          width: '40px',
-                          height: '40px',
+                          width: getAvatarSize(),
+                          height: getAvatarSize(),
                           borderRadius: '50%',
                           objectFit: 'cover',
-                          marginRight: '1rem'
+                          flexShrink: 0
                         }}
                       />
-                      <div>
-                        <div style={{ fontWeight: '500', color: '#333' }}>{friendData.displayName}</div>
-                        <div style={{ fontSize: '12px', color: '#666' }}>{friendData.email}</div>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontWeight: '500', color: '#333', fontSize: getFontSize(), overflow: 'hidden', textOverflow: 'ellipsis' }}>{friendData.displayName}</div>
+                        <div style={{ fontSize: isMobile ? '11px' : '12px', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis' }}>{friendData.email}</div>
                       </div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
+                    <div style={{ textAlign: isMobile ? 'left' : 'right', fontSize: isMobile ? '12px' : '14px', width: isMobile ? '100%' : 'auto' }}>
                       {balance !== 0 && (
                         <div style={{
-                          fontSize: '14px',
                           fontWeight: 'bold',
                           color: owesYou ? '#28a745' : youOwe ? '#dc3545' : '#666'
                         }}>
@@ -287,7 +316,6 @@ const Friends = () => {
                       )}
                       {balance === 0 && (
                         <div style={{
-                          fontSize: '14px',
                           color: '#666'
                         }}>
                           Settled up
