@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import { friendsService } from './friendsService';
+import { groupsService } from './groupsService';
 
 const Friends = () => {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searching, setSearching] = useState(false);
 
@@ -18,8 +20,14 @@ const Friends = () => {
       setFriends(friendsData);
     });
 
+    // Subscribe to user's groups
+    const unsubscribeGroups = groupsService.getUserGroups(user.uid, (groupsData) => {
+      setGroups(groupsData);
+    });
+
     return () => {
       unsubscribeFriends();
+      unsubscribeGroups();
     };
   }, [user]);
 
@@ -47,6 +55,46 @@ const Friends = () => {
     } finally {
       setSearching(false);
     }
+  };
+
+  const computeFriendBalances = () => {
+    const balances = {};
+
+    groups.forEach((group) => {
+      const members = group.members || [];
+      const expenses = group.expenses || [];
+
+      expenses.forEach((expense) => {
+        const amount = Number(expense.amount);
+        if (!amount) return;
+
+        const payer = expense.addedBy || {};
+        const otherMembers = members.filter((member) => member.uid !== payer.uid);
+        if (otherMembers.length === 0) return;
+
+        const perPersonRaw = amount / members.length;
+        const perPerson = Number(perPersonRaw.toFixed(2));
+        let remainder = Number((amount - perPerson * members.length).toFixed(2));
+
+        otherMembers.forEach((member, index) => {
+          let owed = perPerson;
+          if (index === otherMembers.length - 1 && remainder !== 0) {
+            owed = Number((perPerson + remainder).toFixed(2));
+          }
+
+          // If payer is current user, others owe user
+          if (payer.uid === user.uid) {
+            balances[member.uid] = (balances[member.uid] || 0) + owed;
+          }
+          // If member is current user, user owes payer
+          else if (member.uid === user.uid) {
+            balances[payer.uid] = (balances[payer.uid] || 0) - owed;
+          }
+        });
+      });
+    });
+
+    return balances;
   };
 
   const handleAddFriend = async (friendData) => {
@@ -192,35 +240,64 @@ const Friends = () => {
           </p>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-            {friends.map((friend) => {
-              const friendData = friend.senderId === user.uid ? friend.receiverData : friend.senderData;
-              return (
-                <div key={friend.id} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '1rem',
-                  backgroundColor: 'white',
-                  borderRadius: '8px',
-                  border: '1px solid #e9ecef'
-                }}>
-                  <img
-                    src={friendData.photoURL || '/default-avatar.png'}
-                    alt={friendData.displayName}
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '50%',
-                      objectFit: 'cover',
-                      marginRight: '1rem'
-                    }}
-                  />
-                  <div>
-                    <div style={{ fontWeight: '500', color: '#333' }}>{friendData.displayName}</div>
-                    <div style={{ fontSize: '12px', color: '#666' }}>{friendData.email}</div>
+            {(() => {
+              const balances = computeFriendBalances();
+              return friends.map((friend) => {
+                const friendData = friend.senderId === user.uid ? friend.receiverData : friend.senderData;
+                const balance = balances[friendData.uid] || 0;
+                const owesYou = balance > 0;
+                const youOwe = balance < 0;
+                const amount = Math.abs(balance).toFixed(2);
+                return (
+                  <div key={friend.id} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '1rem',
+                    backgroundColor: 'white',
+                    borderRadius: '8px',
+                    border: '1px solid #e9ecef'
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <img
+                        src={friendData.photoURL || '/default-avatar.png'}
+                        alt={friendData.displayName}
+                        style={{
+                          width: '40px',
+                          height: '40px',
+                          borderRadius: '50%',
+                          objectFit: 'cover',
+                          marginRight: '1rem'
+                        }}
+                      />
+                      <div>
+                        <div style={{ fontWeight: '500', color: '#333' }}>{friendData.displayName}</div>
+                        <div style={{ fontSize: '12px', color: '#666' }}>{friendData.email}</div>
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      {balance !== 0 && (
+                        <div style={{
+                          fontSize: '14px',
+                          fontWeight: 'bold',
+                          color: owesYou ? '#28a745' : youOwe ? '#dc3545' : '#666'
+                        }}>
+                          {owesYou ? 'Owes you' : 'You owe'} ${amount}
+                        </div>
+                      )}
+                      {balance === 0 && (
+                        <div style={{
+                          fontSize: '14px',
+                          color: '#666'
+                        }}>
+                          Settled up
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
           </div>
         )}
       </div>

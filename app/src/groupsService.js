@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, doc, updateDoc, arrayUnion, arrayRemove, onSnapshot, increment } from 'firebase/firestore';
 
 export const groupsService = {
   // Create a new group
@@ -26,6 +26,7 @@ export const groupsService = {
             joinedDate: new Date()
           }
         ],
+        expenses: [],
         totalAmount: 0
       });
       return { id: docRef.id };
@@ -95,6 +96,78 @@ export const groupsService = {
       }
     } catch (error) {
       console.error('Error removing member from group:', error);
+      throw error;
+    }
+  },
+
+  // Add expense to group
+  addExpenseToGroup: async (groupId, expenseData) => {
+    try {
+      const roundedAmount = Number(expenseData.amount.toFixed(2));
+      await updateDoc(doc(db, 'groups', groupId), {
+        expenses: arrayUnion({
+          id: expenseData.id,
+          title: expenseData.title,
+          amount: roundedAmount,
+          addedBy: expenseData.addedBy,
+          createdDate: expenseData.createdDate || new Date()
+        }),
+        totalAmount: increment(roundedAmount)
+      });
+    } catch (error) {
+      console.error('Error adding expense to group:', error);
+      throw error;
+    }
+  },
+
+  // Update an existing expense
+  updateExpenseInGroup: async (groupId, expenseId, updatedExpenseData) => {
+    try {
+      const groupSnap = await getDocs(query(collection(db, 'groups'), where('__name__', '==', groupId)));
+      if (groupSnap.empty) throw new Error('Group not found');
+      const groupData = groupSnap.docs[0].data();
+      const existingExpense = (groupData.expenses || []).find(exp => exp.id === expenseId);
+      if (!existingExpense) throw new Error('Expense not found');
+
+      const newAmount = Number(updatedExpenseData.amount.toFixed(2));
+      const newExpenses = (groupData.expenses || []).map((expense) =>
+        expense.id === expenseId
+          ? {
+              ...expense,
+              title: updatedExpenseData.title,
+              amount: newAmount,
+              addedBy: updatedExpenseData.addedBy,
+              createdDate: updatedExpenseData.createdDate || expense.createdDate
+            }
+          : expense
+      );
+
+      await updateDoc(doc(db, 'groups', groupId), {
+        expenses: newExpenses,
+        totalAmount: increment(newAmount - Number(existingExpense.amount))
+      });
+    } catch (error) {
+      console.error('Error updating expense in group:', error);
+      throw error;
+    }
+  },
+
+  // Delete an expense from group
+  deleteExpenseFromGroup: async (groupId, expenseId) => {
+    try {
+      const groupSnap = await getDocs(query(collection(db, 'groups'), where('__name__', '==', groupId)));
+      if (groupSnap.empty) throw new Error('Group not found');
+      const groupData = groupSnap.docs[0].data();
+      const existingExpense = (groupData.expenses || []).find(exp => exp.id === expenseId);
+      if (!existingExpense) throw new Error('Expense not found');
+
+      const newExpenses = (groupData.expenses || []).filter(exp => exp.id !== expenseId);
+      await updateDoc(doc(db, 'groups', groupId), {
+        expenses: newExpenses,
+        totalAmount: increment(-Number(existingExpense.amount))
+      });
+    } catch (error) {
+      console.error('Error deleting expense from group:', error);
       throw error;
     }
   },
